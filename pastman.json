@@ -1,0 +1,4965 @@
+{
+	"info": {
+		"_postman_id": "c1294a2f-b04a-40b2-97ab-188fe6976fc3",
+		"name": "Data Gateway",
+		"description": "Build the data flow you need—for customer onboarding, background verifications, and collecting electronic signatures.\n\n[See on Setu docs](https://docs.setu.co/data)\n\nWe currently support the following data blocks:\n\n**Aadhaar based e-Sign**\nCollect legally binding digital signatures. Upload a document and create a signature request for one or more signers.\n\n\n**Aadhaar Offline KYC**\nOnboard with Aadhaar XML on your platform, in compliance with UIDAI & RBI guidelines. Simply create a request and share the request URL with your customers.\n\n\n**PAN Verification**\nCheck validity and name of PAN holder, with a simple and straightforward PAN verification API.\n\n\n**Bank Account Verification**\nConfirm the validity of an account from the account holder’s bank, with penny-drop done in real-time.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "eSign",
+			"item": [
+				{
+					"name": "eSign Template",
+					"item": [
+						{
+							"name": "Upload eSign document template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var res = pm.response.json();",
+											"pm.environment.set(\"template_id\", res.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "template",
+											"type": "file",
+											"src": "/Users/ianfernandes/Downloads/template.pdf"
+										},
+										{
+											"key": "parameters",
+											"value": "{\"name\": [100, 590], \"fundraiser\": [100, 565], \"beneficiaryName\": [210, 540], \"beneficiaryRelationship\": [250, 515], \"date\": [90, 487], \"amount\": [350, 487], \"account\": [410, 462], \"accountHolderRelationship\": [270, 437]}",
+											"type": "text"
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/templates",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"templates"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Upload eSign document template",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-client-id",
+												"value": "{{client_id}}",
+												"type": "text"
+											},
+											{
+												"key": "x-client-secret",
+												"value": "{{secret}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "template",
+													"type": "file",
+													"src": "/Users/ianfernandes/Downloads/template.pdf"
+												},
+												{
+													"key": "parameters",
+													"value": "{\"name\": [100, 590], \"fundraiser\": [100, 565], \"beneficiaryName\": [210, 540], \"beneficiaryRelationship\": [250, 515], \"date\": [90, 487], \"amount\": [350, 487], \"account\": [410, 462], \"accountHolderRelationship\": [270, 437]}",
+													"type": "text"
+												},
+												{
+													"key": "",
+													"value": "",
+													"type": "text",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "http://{{base_url}}/api/templates",
+											"protocol": "http",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"templates"
+											]
+										}
+									},
+									"_postman_previewlanguage": "json",
+									"header": null,
+									"cookie": [],
+									"body": "{\n    \"downloadUrl\": \"https://s3-link-goes-here.com\",\n    \"id\": \"6ff6abc2-3306-4133-885a-245d5d9f69dc\",\n    \"parameters\": {\n        \"account\": [\n            410,\n            462\n        ],\n        \"accountHolderRelationship\": [\n            270,\n            437\n        ],\n        \"amount\": [\n            350,\n            487\n        ],\n        \"beneficiaryName\": [\n            210,\n            540\n        ],\n        \"beneficiaryRelationship\": [\n            250,\n            515\n        ],\n        \"date\": [\n            90,\n            487\n        ],\n        \"fundraiser\": [\n            100,\n            565\n        ],\n        \"name\": [\n            100,\n            590\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Render eSign document template",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var res = pm.response.json();",
+											"pm.environment.set(\"document_id\", res.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"random name\",\n    \"parameters\": {\n        \"name\" : \"your name\",\n        \"fundraiser\" : \"fundraiser name\",\n        \"beneficiaryName\" : \"beneficiary name\",\n        \"beneficiaryRelationship\": \"beneficiary relationship\",\n        \"date\": \"15/12/2021\",\n        \"amount\": \"25,000\",\n        \"account\": \"123456789\",\n        \"accountHolderRelationship\": \"account holder relationship\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/templates/:id/render",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"templates",
+										":id",
+										"render"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{template_id}}"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Render eSign document template",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "x-client-id",
+												"value": "{{client_id}}",
+												"type": "text"
+											},
+											{
+												"key": "x-client-secret",
+												"value": "{{secret}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"random name\",\n    \"parameters\": {\n        \"name\" : \"your name\",\n        \"fundraiser\" : \"fundraiser name\",\n        \"beneficiaryName\" : \"beneficiary name\",\n        \"beneficiaryRelationship\": \"beneficiary relationship\",\n        \"date\": \"15/12/2021\",\n        \"amount\": \"25,000\",\n        \"account\": \"123456789\",\n        \"accountHolderRelationship\": \"account holder relationship\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{base_url}}/api/templates/:id/render",
+											"protocol": "http",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"templates",
+												":id",
+												"render"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "{{template_id}}"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": "json",
+									"header": null,
+									"cookie": [],
+									"body": "{\n    \"documentType\": \"application/pdf\",\n    \"downloadUrl\": \"https://s3-link-goes-here.com\",\n    \"id\": \"d784d36c-88c8-4670-b320-d164cad73d8c\",\n    \"name\": \"random name\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Template",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/templates/:id",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"templates",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{template_id}}"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get Template",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://{{base_url}}/api/templates/:id",
+											"protocol": "http",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"templates",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": null
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": "json",
+									"header": null,
+									"cookie": [],
+									"body": "{\n    \"downloadUrl\": \"https://s3-link-goes-here.com\",\n    \"id\": \"6ff6abc2-3306-4133-885a-245d5d9f69dc\",\n    \"parameters\": {\n        \"account\": [\n            410,\n            462\n        ],\n        \"accountHolderRelationship\": [\n            270,\n            437\n        ],\n        \"amount\": [\n            350,\n            487\n        ],\n        \"beneficiaryName\": [\n            210,\n            540\n        ],\n        \"beneficiaryRelationship\": [\n            250,\n            515\n        ],\n        \"date\": [\n            90,\n            487\n        ],\n        \"fundraiser\": [\n            100,\n            565\n        ],\n        \"name\": [\n            100,\n            590\n        ]\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Upload Document",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();",
+									"pm.environment.set(\"document_id\", res.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "document",
+									"type": "file",
+									"src": "/Users/ianfernandes/Downloads/eSignDocument-protected.pdf"
+								},
+								{
+									"key": "name",
+									"value": "vaccine",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/documents",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"documents"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "The document was successfully uploaded",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "http://{{base_url}}/api/documents",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"documents"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"id\": \"67e0ca30-49e4-4883-86f9-3762f0e6798c\",\n    \"name\": \"sample.pdf\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Signature Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();",
+									"pm.environment.set(\"request_id\", res.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"documentId\": \"{{document_id}}\",\n  \"redirectUrl\": \"http://setu.co\",\n  \"signers\": [\n    {\n      \"identifier\": \"9876543210\",\n      \"displayName\": \"Ian Fernandes\",\n      \"signature\": {\n        \"height\": 60,\n        \"onPages\": [\n          \"1\"\n        ],\n        \"position\": \"bottom-left\",\n        \"width\": 180\n      }\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/signature",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"signature"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"documentId\": \"{{document_id}}\",\n  \"redirectUrl\": \"http://setu.co\",\n  \"signers\": [\n    {\n      \"identifier\": \"9876543210\",\n      \"displayName\": \"Akshay P\",\n      \"signature\": {\n        \"height\": 60,\n        \"onPages\": [\n          \"1\"\n        ],\n        \"position\": \"bottom-left\",\n        \"width\": 180\n      }\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/signature",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"signature"
+									]
+								}
+							},
+							"status": "CREATED",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 28 Oct 2021 08:24:03 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "449"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"documentId\": \"91fba655-95d3-4ffd-a47f-5e122024b00c\",\n    \"id\": \"6bae9d1f-0fa6-44e5-a801-3ad4a5f10a12\",\n    \"redirectUrl\": \"http://setu.co\",\n    \"signers\": [\n        {\n            \"displayName\": \"Akshay P\",\n            \"id\": \"34f94af1-a8b9-4797-b287-c5ef7bff99a1\",\n            \"identifier\": \"9876543210\",\n            \"signatureDetails\": null,\n            \"status\": \"pending\",\n            \"url\": \"https://dg-uat.setu.co/signature/preview?requestId=6bae9d1f-0fa6-44e5-a801-3ad4a5f10a12&signerId=34f94af1-a8b9-4797-b287-c5ef7bff99a1\"\n        }\n    ],\n    \"status\": \"sign_initiated\"\n}"
+						},
+						{
+							"name": "Invalid document",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"documentId\": \"{{document_id}}\",\n  \"redirectUrl\": \"http://setu.co\",\n  \"signers\": [\n    {\n      \"identifier\": \"9876543210\",\n      \"displayName\": \"Akshay P\",\n      \"signature\": {\n        \"height\": 60,\n        \"onPages\": [\n          \"1\"\n        ],\n        \"position\": \"bottom-left\",\n        \"width\": 180\n      }\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/signature",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"signature"
+									]
+								}
+							},
+							"status": "BAD REQUEST",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 28 Oct 2021 08:24:37 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "115"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"invalid_document\",\n        \"detail\": \"The document Id is already being used in a signature\",\n        \"traceId\": \"\"\n    }\n}"
+						},
+						{
+							"name": "Invalid payload",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"documentId\": \"{{document_id}}\",\n  \"redirectUrl\": \"http://setu.co\",\n  \"signers\": [\n    {\n      \"identifier\": \"9876543210\",\n      \"displayName\": \"Akshay P\",\n      \"signature\": {\n        \"height\": 60,\n        \"onPages\": [\n          \"1\"\n        ],\n        \"width\": 180\n      }\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/signature",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"signature"
+									]
+								}
+							},
+							"status": "BAD REQUEST",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 28 Oct 2021 08:25:09 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "85"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"invalid_payload\",\n        \"detail\": \"Invalid position value.\",\n        \"traceId\": \"\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Signature Request by Request ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/signature/:requestId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"signature",
+								":requestId"
+							],
+							"variable": [
+								{
+									"key": "requestId",
+									"value": "{{request_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success (pending sign)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/signature/:requestId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"signature",
+										":requestId"
+									],
+									"variable": [
+										{
+											"key": "requestId",
+											"value": "{{request_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 28 Oct 2021 08:26:18 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "449"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"documentId\": \"50ce4004-2133-4b39-8c5f-6522714ae2d0\",\n    \"id\": \"5f2eedb3-ef0e-4ae9-831b-8ae208a31b9b\",\n    \"redirectUrl\": \"http://setu.co\",\n    \"signers\": [\n        {\n            \"displayName\": \"Akshay P\",\n            \"id\": \"9d9e47f7-9c24-4587-8775-f01b17e6fc4d\",\n            \"identifier\": \"9876543210\",\n            \"signatureDetails\": null,\n            \"status\": \"pending\",\n            \"url\": \"https://dg-uat.setu.co/signature/preview?requestId=5f2eedb3-ef0e-4ae9-831b-8ae208a31b9b&signerId=9d9e47f7-9c24-4587-8775-f01b17e6fc4d\"\n        }\n    ],\n    \"status\": \"sign_initiated\"\n}"
+						},
+						{
+							"name": "Success( document signed)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/signature/:requestId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"signature",
+										":requestId"
+									],
+									"variable": [
+										{
+											"key": "requestId",
+											"value": "{{request_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 28 Oct 2021 08:27:38 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "559"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"documentId\": \"50ce4004-2133-4b39-8c5f-6522714ae2d0\",\n    \"id\": \"5f2eedb3-ef0e-4ae9-831b-8ae208a31b9b\",\n    \"redirectUrl\": \"http://setu.co\",\n    \"signers\": [\n        {\n            \"displayName\": \"Akshay P\",\n            \"id\": \"9d9e47f7-9c24-4587-8775-f01b17e6fc4d\",\n            \"identifier\": \"9876543210\",\n            \"signatureDetails\": {\n                \"aadhaarName\": \"signer name as per aadhaar\",\n                \"aadhaarSuffix\": \"XXXX\",\n                \"birthYear\": \"1972\",\n                \"gender\": \"M\",\n                \"postalCode\": \"560001\"\n            },\n            \"status\": \"signed\",\n            \"url\": \"https://dg-uat.setu.co/signature/preview?requestId=5f2eedb3-ef0e-4ae9-831b-8ae208a31b9b&signerId=9d9e47f7-9c24-4587-8775-f01b17e6fc4d\"\n        }\n    ],\n    \"status\": \"sign_complete\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Signature Request",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/signature/:id/delete/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"signature",
+								":id",
+								"delete",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{request_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Request Deleted successfully",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/api/signature/:id/delete/",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"signature",
+										":id",
+										"delete",
+										""
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{request_id}}"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Download a Signed Document",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/signature/:requestId/download/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"signature",
+								":requestId",
+								"download",
+								""
+							],
+							"variable": [
+								{
+									"key": "requestId",
+									"value": "{{request_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Signed document download url",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/signature/:requestId/download/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"signature",
+										":requestId",
+										"download",
+										""
+									],
+									"variable": [
+										{
+											"key": "requestId",
+											"value": "{{request_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 28 Oct 2021 08:29:14 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1716"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"downloadUrl\": \"download_url_goes_here\",\n    \"id\": \"29e5a985-7d40-4b42-8260-9d9f4ef60aa1\",\n    \"validUpto\": \"2021-10-28T14:09:14+05:30\"\n}"
+						},
+						{
+							"name": "Signature Request not yet completed/cancelled/declined",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/api/signature/:id/download/",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"signature",
+										":id",
+										"download",
+										""
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "7097e53a-ba29-48a2-983d-878433b4f33e"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"document_not_signed\",\n        \"detail\": \"Only signed documents can be downloaded.\",\n        \"traceId\": \"\"\n    }\n}"
+						},
+						{
+							"name": "Signed Document deleted / Document not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{base_url}}/api/signature/:id/download/",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"signature",
+										":id",
+										"download",
+										""
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "7097e53a-ba29-48a2-983d-878433b4f33e"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"signature_request_not_found\",\n        \"detail\": \"Signature Request Not Found.\",\n        \"traceId\": \"\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Esign Audit Report",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/signature/:requestId/audit/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"signature",
+								":requestId",
+								"audit",
+								""
+							],
+							"variable": [
+								{
+									"key": "requestId",
+									"value": "{{request_id}}"
+								}
+							]
+						},
+						"description": "Get esign sudit report in pdf/json format against a signature request Id."
+					},
+					"response": [
+						{
+							"name": "Get Esign Audit Report",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/pdf",
+										"description": "Responds a pdf if application/pdf",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/signature/audit/805b326f-e38c-4908-8592-0d3c7200a6b4",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"signature",
+										"audit",
+										"805b326f-e38c-4908-8592-0d3c7200a6b4"
+									],
+									"query": [
+										{
+											"key": "documentId",
+											"value": "86431fb5-3907-4702-986c-50c98310c7e0/json",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": null,
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Get Esign Audit Report",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"description": "Defaults to json response if not application/pdf",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/signature/audit/805b326f-e38c-4908-8592-0d3c7200a6b4",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"signature",
+										"audit",
+										"805b326f-e38c-4908-8592-0d3c7200a6b4"
+									],
+									"query": [
+										{
+											"key": "documentId",
+											"value": "86431fb5-3907-4702-986c-50c98310c7e0/json",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"id\": \"805b326f-e38c-4908-8592-0d3c7200a6b4\",\n    \"document\": {\n        \"id\": \"c3eaecdd-db27-4d9b-b9bb-ed7f7771b1c6\",\n        \"name\": \"vaccine\"\n    },\n    \"events\": [\n        {\n            \"createdAt\": \"2021-11-22 11:43:39.161115\",\n            \"activity\": \"uploaded\",\n            \"initator\": {\n                \"name\": \"Test client\",\n                \"type\": \"apiClient\",\n                \"userAgent\": \"PostmanRuntime/7.28.4\",\n                \"IP\": \"223.179.144.102, 172.31.28.227\"\n            },\n            \"metaData\": {}\n        },\n        {\n            \"createdAt\": \"2021-11-22 11:44:32.468027\",\n            \"activity\": \"notified\",\n            \"initator\": {\n                \"name\": \"Test client\",\n                \"type\": \"apiClient\",\n                \"userAgent\": \"PostmanRuntime/7.28.4\",\n                \"IP\": \"223.179.144.102, 172.31.28.227\"\n            },\n            \"metaData\": {\n                \"signers\": [\n                    {\n                        \"identifier\": \"9876543210\",\n                        \"displayName\": \"Akshay P\"\n                    },\n                    {\n                        \"identifier\": \"7042484922\",\n                        \"displayName\": \"Rahul\"\n                    }\n                ]\n            }\n        },\n        {\n            \"createdAt\": \"2021-11-22 11:44:55.497584\",\n            \"activity\": \"opened\",\n            \"initator\": {\n                \"name\": \"Akshay P\",\n                \"type\": \"signer\",\n                \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36\",\n                \"IP\": \"172.31.42.133\"\n            },\n            \"metaData\": {}\n        },\n        {\n            \"createdAt\": \"2021-11-22 11:46:41.198454\",\n            \"activity\": \"signed\",\n            \"initator\": {\n                \"name\": \"Akshay P\",\n                \"type\": \"signer\",\n                \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36\",\n                \"IP\": \"172.31.4.118\"\n            },\n            \"metaData\": {\n                \"signatureDetails\": {\n                    \"gender\": \"M\",\n                    \"issuer\": \"NSDL e-Governance Infrastructure Limited\",\n                    \"birthYear\": \"1993\",\n                    \"validFrom\": \"2021-11-22 11:50:47\",\n                    \"validUpto\": \"2021-11-22 12:20:46\",\n                    \"postalCode\": \"201300\",\n                    \"aadhaarName\": \"Rahul Roy\",\n                    \"serialNumber\": \"1784230000\",\n                    \"aadhaarSuffix\": \"5340\"\n                }\n            }\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Download document",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/documents/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"documents",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{document_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Download document",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{base_url}}/api/documents/:id",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"documents",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{document_id}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"documentType\": \"application/pdf\",\n    \"downloadUrl\": \"https://s3-link-goes-here.com\",\n    \"id\": \"d784d36c-88c8-4670-b320-d164cad73d8c\",\n    \"name\": \"random name\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "OKYC",
+			"item": [
+				{
+					"name": "Create an OKYC Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();",
+									"pm.environment.set(\"request_id\", res.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"redirectURL\":\"https://setu.co\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/okyc/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"okyc",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"redirectURL\": \"https://redirecturl.com\"\n}"
+								},
+								"url": {
+									"raw": "https://{{base_url}}/api/okyc/",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"id\": \"7097e53a-ba29-48a2-983d-878433b4f33e\",\n    \"url\": \"https://setuOKYCURL.co/foobar&sessionId=uuid\",\n    \"validUpto\": \"Wed, 23 Jun 2021 19:33:55 GMT\",\n    \"status\": \"incomplete\"\n}"
+						},
+						{
+							"name": "Failure - Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"redirectURL\": \"https://redirecturl.com\"\n}"
+								},
+								"url": {
+									"raw": "https://{{base_url}}/api/okyc/",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										""
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"invalid_redirect_url\",\n        \"detail\": \"Please enter a valid redirect URL.\",\n        \"traceId\": \"\"\n    }\n}"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"redirectURL\": \"https://redirecturl.com\"\n}"
+								},
+								"url": {
+									"raw": "https://{{base_url}}/api/okyc/",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										""
+									]
+								}
+							},
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"internal_server_error\",\n        \"detail\": \"Internal Server Error\",\n        \"traceId\": \"7097e53a-ba29-48a2-983d-878433b4f33e\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "[API only] Initiate OKYC Request",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/okyc/:requestId/initiate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"okyc",
+								":requestId",
+								"initiate"
+							],
+							"variable": [
+								{
+									"key": "requestId",
+									"value": "{{request_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Initiate OKYC Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/okyc/{{request_id}}/initiate",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										"{{request_id}}",
+										"initiate"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n  \"captchaImage\": \"base64-Image-data\",\n  \"requestId\": \"7097e53a-ba29-48a2-983d-878433b4f33e\"\n}"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/okyc/{{request_id}}/initiate",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										"{{request_id}}",
+										"initiate"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"captchaImage\": \"/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAyAK8DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iiigAooooAKKKKACiiigAooooAKKKKACiiigAqrfalY6XAs+oXttaRM2wSXEqxqWwTjJI5wD+VWq+efEj6h8Qviu+hm5+zww3MlrArncsSxg72AAGWbYT+QzgAhpXJk7Hq0PxS8FzzxwpraBpGCgvBKigk45YqAB7k4FdVaXlrf2yXNncw3Nu+dksLh1bBwcEcHkEVwt38HfCk2kPa21vNb3flhUvfOd2DD+IqTtOe4AHU4xxjhvhXqWoeHviBceFZpfNt5ZJoZER/3azRgnzFyM8hCvbIIJ+6BTsnsLmaep7zRRRUlhRRRQAUUUUAFFFFABWNrnizQfDewatqUNs742x8u5Bzg7FBbHynnGM8Vs189W1snib47zW+qHzo/7RmBXauGWENsQjGCMRqp45Ge5zTSuNGn8Z9X0/W7Lw7eaZeQ3Vu32j54mztOIjhh1U4IyDgjPNdrf+ILvwt8FbHWrGOGS5ttOs9izqSh3eWpyAQejHvXB/Gnw/pmj3ukXOnWkNp9ojljkigjWNPkKkNhQOTvIJ9APSum8af8m6x/9g6w/wDQ4arsVFXkkcvYfG7xXq1gLbS/DsN7rIlaSQW9tLJGtuAoHyKxbduJycgAbRgk8e0+HtQl1bwzpWpTqizXdnDPIsYIUM6BiBkk4yfWvN/2fYIl8FajOIkEz6iyNIFG5lWOMqCepALNgdtx9a9apSteyKq8qfKkfN/7QP8AyPlj/wBgyP8A9Gy1u/8ADOf/AFNX/lP/APttYX7QP/I+WP8A2DI//Rstbv8Awzn/ANTV/wCU/wD+20+hz21PVvB3hz/hEvCllof2v7V9m3/vvL8vdudn+7k4xux17Vu1zz6hpPgDwdYLrOpJFa2UENp57IcysqhRtQZJJwTgZwAT0BNcL/w0R4R/6B2t/wDfiL/47U2bKvY9br581+O7+H3xeGt3ELy2c929zHJ5fEkcmfMVfm+8odhyRyFJGCK900XWtP8AEOkQarpVx9osp93ly7GTdtYqeGAI5BHSpb7TbHVIFg1CytruJW3iO4iWRQ2CM4IPOCfzoTsKSucTd/GLwpDpD3VtcTXF35YZLLyXRix/hLEbRjuQT0OM8Z4b4V6bqHiH4gXHiqaLyreKSaaR0T9200gI8tcnPAct3wAAfvA16TD8LfBcE8cyaIhaNgwDzyupIOeVLEEexGDXVWlna2FsltZ20NtbpnZFCgRVycnAHA5JNO6WwuVt6k1FFFSWFFFFABRRRQAUUUUAFeYeLPhbd33iceIvDt/b2l6ZknMM8eEWRefMBAOSSFJBU5JYk84r0+imnYDyDxP8LPE/iL7FeXevWl7qSxmOd5k8lEXgqqBEO7DGTLHGQV4FegxeGLS88EWfhzWoUuYEtIIJ0SRlV2jC9GGGxuUHtW9RRdjuZPh/w1pHhawksdFtPsttJKZmTzHfLkAE5Yk9FH5VrUUUhN33PN/iB8KP+E616DVP7a+w+Varb+X9l83OGZs53r/e6Y7Vyn/DOf8A1NX/AJT/AP7bXudFO7FZHlviD4UXd78KdO8I2GqQPc6fdG5SeeIxpLlpMg4LFcCU88529s5HJ6Drfjn4R+FVj1bwVavo0TndNBcIsplduHlZGcEY+TJUfwDPQH1zxn4Sh8Y6PDZPf3VhPbXAura5tiA0cyqwRj3IBbOAQeBgivOtR+B+uaxbrb6n8RtRvYFfesdzA8ihsEZAaYjOCefc00+4rdjvfh54i0bxN4Rt7vQ7FNPt43aKSyjjCLBLwzKMAAj5g2QOd3ODkDqqxPCnhbTvB2gRaPpgcwI7O0ku3zJGY5yxUAE4wM46KB2rbqWUFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQB/\",\n    \"captchaRetriesRemaining\": 4,\n    \"id\": \"0d209de1-77d1-4069-ad71-3f2cddf261f9\"\n}"
+						},
+						{
+							"name": "Exceeded captcha requests",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/okyc/{{request_id}}/initiate",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										"{{request_id}}",
+										"initiate"
+									]
+								}
+							},
+							"status": "Too Many Requests",
+							"code": 429,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n\"error\": {\n\t\"code\": \"exceeded_captcha_requests\",\n\t\"detail\": \"Exceeded captcha requests\",\n\t\"traceId\": \"\"\n\t}\n}"
+						},
+						{
+							"name": "Request Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/okyc/{{request_id}}/initiate",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										"{{request_id}}",
+										"initiate"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Internal server error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/okyc/{{request_id}}/initiate",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										"{{request_id}}",
+										"initiate"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"internal_server_error\",\n        \"detail\": \"Internal Server Error.\",\n        \"traceID\": \"\"\n    }\n}"
+						},
+						{
+							"name": "Upstream Services Down",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/okyc/{{request_id}}/initiate",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										"{{request_id}}",
+										"initiate"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "Text",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"internal_server_error\",\n        \"detail\": \"Upstream services are down\",\n        \"traceID\": \"\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "[API only] Verify OKYC Request",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"aadhaarNumber\": \"999999990019\",\n    \"captchaCode\": \"2GAD0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/okyc/:requestId/verify",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"okyc",
+								":requestId",
+								"verify"
+							],
+							"variable": [
+								{
+									"key": "requestId",
+									"value": "{{request_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Verify OKYC Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"aadhaarNumber\": \"aadhaarNumber\",\n    \"captchaCode\": \"captchaCode\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/okyc/{{request_id}}/verify",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										"{{request_id}}",
+										"verify"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": null,
+							"cookie": [],
+							"body": "OK"
+						},
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"aadhaarNumber\": \"aadhaarNumber\",\n    \"captchaCode\": \"captchaCode\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/okyc/{{request_id}}/verify",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										"{{request_id}}",
+										"verify"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"code\": \"otp_sent\",\n    \"message\": \"OTP sent to your registered mobile number.\"\n}"
+						},
+						{
+							"name": "Invalid captcha entered",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"aadhaarNumber\": \"932212357029\",\n    \"captchaCode\": \"WsdLG\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/okyc/{{request_id}}/verify",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										"{{request_id}}",
+										"verify"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"invalid_captcha_entered\",\n        \"detail\": \"Invalid captcha entered\",\n        \"traceId\": \"\"\n    }\n}"
+						},
+						{
+							"name": "Invalid request order",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"aadhaarNumber\": \"932212357029\",\n    \"captchaCode\": \"WsdLG\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/okyc/{{request_id}}/verify",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										"{{request_id}}",
+										"verify"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"invalid_sequence\",\n        \"detail\": \"Invalid request order.\",\n        \"traceId\": \"\"\n    }\n}"
+						},
+						{
+							"name": "Request Not Found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"aadhaarNumber\": \"932212357029\",\n    \"captchaCode\": \"WsdLG\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/okyc/{{request_id}}/verify",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										"{{request_id}}",
+										"verify"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"request_not_found\",\n        \"detail\": \"Request not found.\",\n        \"traceId\": \"\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "[API only] Complete OKYC Request",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"otp\": \"123456\",\n    \"shareCode\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/okyc/:requestId/complete",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"okyc",
+								":requestId",
+								"complete"
+							],
+							"variable": [
+								{
+									"key": "requestId",
+									"value": "{{request_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Complete OKYC Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"otp\": \"132347\",\n    \"shareCode\": \"1234\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/okyc/{{request_id}}/complete",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										"{{request_id}}",
+										"complete"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": null,
+							"cookie": [],
+							"body": "{\n  \"aadhaar\": {\n    \"address\": {\n      \"careOf\": \"S/O: Mohan\",\n      \"country\": \"India\",\n      \"district\": \"Bangalore\",\n      \"house\": \"# 90 1 Cross\",\n      \"landmark\": \"Near PO\",\n      \"locality\": \"M.G. Road\",\n      \"pin\": \"560072\",\n      \"postOffice\": \"M.G Road\",\n      \"state\": \"Karnataka\",\n      \"street\": \"M.G.Road 1st Main Road\",\n      \"subDistrict\": \"Bangalore North\",\n      \"vtc\": \"Bangalore North\"\n    },\n    \"dateOfBirth\": \"22-01-1980\",\n    \"email\": \"550fa5fd91eee3f29f6361a8c89aa9713d4d38811d1a5\",\n    \"gender\": \"M\",\n    \"generatedAt\": \"20210419145604802\",\n    \"maskedNumber\": \"xxxx-xxxx-8112\",\n    \"name\": \"Aditya Mohan\",\n    \"phone\": \"09c91184c1d610282d661dd63d257e3b44446853fb1388c9d5b\",\n    \"photo\": \"/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKD==\",\n    \"verified\": {\n      \"email\": false,\n      \"phone\": false,\n      \"signature\": true\n    },\n    \"xml\": {\n      \"fileUrl\": \"https://setus3linkgoeshere.com/\",\n      \"validUntil\": 12345678\n    }\n  },\n  \"id\": \"7097e53a-ba29-48a2-983d-878433b4f33e\"\n}"
+						},
+						{
+							"name": "Invalid request order",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"otp\": \"132347\",\n    \"shareCode\": \"1234\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/okyc/{{request_id}}/complete",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										"{{request_id}}",
+										"complete"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"invalid_sequence\",\n        \"detail\": \"Invalid request order.\",\n        \"traceId\": \"\"\n    }\n}"
+						},
+						{
+							"name": "Request not found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"otp\": \"132347\",\n    \"shareCode\": \"1234\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/okyc/{{request_id}}/complete",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										"{{request_id}}",
+										"complete"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"request_not_found\",\n        \"detail\": \"Request not found.\",\n        \"traceId\": \"\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get details of an OKYC Request",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/okyc/:requestId/:shareCode",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"okyc",
+								":requestId",
+								":shareCode"
+							],
+							"variable": [
+								{
+									"key": "requestId",
+									"value": "{{request_id}}"
+								},
+								{
+									"key": "shareCode",
+									"value": "1234"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "With a share code",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{base_url}}/api/okyc/:requestId/:shareCode",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										":requestId",
+										":shareCode"
+									],
+									"variable": [
+										{
+											"key": "requestId",
+											"value": "7097e53a-ba29-48a2-983d-878433b4f33e"
+										},
+										{
+											"key": "shareCode",
+											"value": "1111"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"aadhaar\": {\n        \"address\": {\n            \"careOf\": \"S/O: Gurjar Pradeep\",\n            \"country\": \"India\",\n            \"district\": \"Bangalore\",\n            \"house\": \"# 90 1 Cross\",\n            \"landmark\": \"Near Talkies\",\n            \"locality\": \"Nagarabhavi\",\n            \"pin\": \"560072\",\n            \"postOffice\": \"Nagarbhavi\",\n            \"state\": \"Karnataka\",\n            \"street\": \"Nagarbhavi 1st Main Road\",\n            \"subDistrict\": \"Bangalore North\",\n            \"vtc\": \"Bangalore North\"\n        },\n        \"dateOfBirth\": \"23-05-1990\",\n        \"email\": \"550fa5fd91eee3f29f6361a8c89aa9713d4d38811d1a5\",\n        \"gender\": \"M\",\n        \"generatedAt\": \"20210419145604802\",\n        \"maskedNumber\": \"xxxx-xxxx-8832\",\n        \"name\": \"Jignesh Gurjar\",\n        \"phone\": \"09c91184c1d610282d661dd63d257e3b44446853fb1388c9d5b\",\n        \"photo\": \"/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKD==\",\n        \"verified\": {\n            \"email\": false,\n            \"phone\": false,\n            \"signature\": true\n        },\n        \"xml\": {\n            \"fileUrl\": \"https://setus3linkgoeshere.com/\",\n            \"validUntil\": \"Wed, 23 Jun 2021 19:33:55 GMT\",\n            \"shareCode\" : \"1234\"\n        }\n    },\n    \"status\": \"complete\",\n    \"id\": \"7097e53a-ba29-48a2-983d-878433b4f33e\"\n}"
+						},
+						{
+							"name": "Without a share code",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{base_url}}/api/okyc/:requestId/:shareCode",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										":requestId",
+										":shareCode"
+									],
+									"variable": [
+										{
+											"key": "requestId",
+											"value": "705b5e0a-754d-40c6-941e-ab034f8cc9fe"
+										},
+										{
+											"key": "shareCode",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"aadhaar\": {\n        \"xml\": {\n            \"fileUrl\": \"https://setus3linkgoeshere.com/\",\n            \"validUntil\": \"Wed, 23 Jun 2021 19:33:55 GMT\"\n        }\n    },\n    \"status\": \"complete\",\n    \"id\": \"7097e53a-ba29-48a2-983d-878433b4f33e\"\n}"
+						},
+						{
+							"name": "Incomplete request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{base_url}}/api/okyc/:requestId/:shareCode",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										":requestId",
+										":shareCode"
+									],
+									"variable": [
+										{
+											"key": "requestId",
+											"value": "{{request_id}}"
+										},
+										{
+											"key": "shareCode",
+											"value": "1111"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"url\": \"https://setuOKYCURL.co/foobar&someId=uuid\",\n    \"id\": \"7097e53a-ba29-48a2-983d-878433b4f33e\",\n    \"validUpto\": \"Wed, 23 Jun 2021 19:33:55 GMT\",\n    \"status\": \"incomplete\"\n}"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{base_url}}/api/okyc/:requestId/:shareCode",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"okyc",
+										":requestId",
+										":shareCode"
+									],
+									"variable": [
+										{
+											"key": "requestId",
+											"value": "7097e53a-ba29-48a2-983d-878433b4f33e"
+										},
+										{
+											"key": "shareCode",
+											"value": "1111"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"error\": {\n    \"code\": \"internal_server_error\",\n    \"detail\": \"Internal Server Error\",\n    \"traceID\": \"7097e53a-ba29-48a2-983d-878433b4f33e\"\n  }\n}"
+						},
+						{
+							"name": "Upstream service down",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": ""
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{ \n  \"error\": { \n    \"code\": \"internal_server_error\", \n    \"detail\": \"Upstream service error\", \n    \"traceID\": \"\" \n  }\n} "
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Digilocker",
+			"item": [
+				{
+					"name": "Create a Digilocker Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();",
+									"pm.environment.set(\"request_id\", res.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"redirectUrl\": \"https://setu.co\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/digilocker/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"digilocker",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"redirectUrl\": \"https://setu.co\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/digilocker/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"digilocker",
+										""
+									]
+								}
+							},
+							"status": "CREATED",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Sep 2021 13:36:28 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "211"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"ea31e1e6-96eb-4e56-a355-7bc51de94d24\",\n    \"status\": \"unauthenticated\",\n    \"url\": \"User login url\",\n    \"validUpto\": \"2021-10-05T19:06:28+05:30\"\n}"
+						},
+						{
+							"name": "Invalid redirect URL",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"redirectUrl\": \"https://.co\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/digilocker/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"digilocker",
+										""
+									]
+								}
+							},
+							"status": "BAD REQUEST",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Sep 2021 13:38:26 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "101"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"invalid_redirect_url\",\n        \"detail\": \"Please enter a valid redirect URL.\",\n        \"traceId\": \"\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Fetch a document",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"docType\": \"ADHAR\",\n    \"format\": \"pdf\",\n    \"consent\": \"Y\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/digilocker/:requestId/document",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"digilocker",
+								":requestId",
+								"document"
+							],
+							"variable": [
+								{
+									"key": "requestId",
+									"value": "{{request_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Invalid payload",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"docType\": \"ADHAR\",\n    \"format\": \"pdf\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/digilocker/{{request_id}}/document",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"digilocker",
+										"{{request_id}}",
+										"document"
+									]
+								}
+							},
+							"status": "BAD REQUEST",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 21 Sep 2021 03:23:28 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "111"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"invalid_payload\",\n        \"detail\": \"Missing required parameter in the JSON body\",\n        \"traceId\": \"\"\n    }\n}"
+						},
+						{
+							"name": "Consent not given",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"docType\": \"ADHAR\",\n    \"format\": \"pdf\",\n    \"consent\": \"N\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/digilocker/{{request_id}}/document",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"digilocker",
+										"{{request_id}}",
+										"document"
+									]
+								}
+							},
+							"status": "BAD REQUEST",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 21 Sep 2021 03:26:49 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "102"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"consent_not_given\",\n        \"detail\": \"Only accepted value for consent is 'Y'\",\n        \"traceId\": \"\"\n    }\n}"
+						},
+						{
+							"name": "Success fetch a document",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"docType\": \"ADHAR\",\n    \"format\": \"pdf\",\n    \"consent\": \"Y\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/digilocker/{{request_id}}/document",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"digilocker",
+										"{{request_id}}",
+										"document"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 21 Sep 2021 03:27:13 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "383"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"fileUrl\": \"s3_url of the file to be downloaded\",\n    \"validUpto\": \"2021-09-21T09:12:12+05:30\"\n}"
+						},
+						{
+							"name": "Token revoked",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"docType\": \"ADHAR\",\n    \"format\": \"pdf\",\n    \"consent\": \"Y\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/digilocker/{{request_id}}/document",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"digilocker",
+										"{{request_id}}",
+										"document"
+									]
+								}
+							},
+							"status": "UNAUTHORIZED",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 21 Sep 2021 03:42:25 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "113"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"token_revoked\",\n        \"detail\": \"The user has revoked the token for the given request.\",\n        \"traceId\": \"\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get e-Aadhaar XML",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/digilocker/:requestId/aadhaar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"digilocker",
+								":requestId",
+								"aadhaar"
+							],
+							"variable": [
+								{
+									"key": "requestId",
+									"value": "{{request_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/digilocker/{{request_id}}/aadhaar",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"digilocker",
+										"{{request_id}}",
+										"aadhaar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 21 Sep 2021 03:29:03 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "383"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"aadhaar\": {\n        \"address\": {\n            \"careOf\": \"S/O John Doe\",\n            \"country\": \"India\",\n            \"district\": \"district\",\n            \"house\": \"house address\",\n            \"landmark\": \"\",\n            \"locality\": \"locality\",\n            \"pin\": \"123456\",\n            \"postOffice\": \"\",\n            \"state\": \"state\",\n            \"street\": \"\",\n            \"subDistrict\": \"\",\n            \"vtc\": \"vtc\"\n        },\n        \"dateOfBirth\": \"01-01-1990\",\n        \"email\": \"\",\n        \"gender\": \"M\",\n        \"generatedAt\": \"2021-10-26T17:17:36.342+05:30\",\n        \"maskedNumber\": \"xxxx-xxxx-1234\",\n        \"name\": \"Jack Doe\",\n        \"phone\": \"\",\n        \"photo\": \"\",\n        \"verified\": {\n            \"email\": false,\n            \"phone\": false,\n            \"signature\": true\n        },\n        \"xml\": {\n            \"fileUrl\": \"https://s3linkgoeshere.com\",\n            \"shareCode\": \"\",\n            \"validUntil\": \"2021-10-09T06:04:16+05:30\"\n        }\n    },\n    \"id\": \"391a45be-d08d-4dd0-b8a8-06e53392d435\",\n    \"status\": \"complete\"\n}"
+						},
+						{
+							"name": "Token revoked",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/digilocker/{{request_id}}/aadhaar",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"digilocker",
+										"{{request_id}}",
+										"aadhaar"
+									]
+								}
+							},
+							"status": "UNAUTHORIZED",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 21 Sep 2021 03:42:30 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "113"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": {\n        \"code\": \"token_revoked\",\n        \"detail\": \"The user has revoked the token for the given request.\",\n        \"traceId\": \"\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get List of all docs available",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/digilocker/documents",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"digilocker",
+								"documents"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/digilocker/documents",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"digilocker",
+										"documents"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Sep 2021 13:45:41 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "276937"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"documents\": [\n        {\n            \"availableFormats\": [\n                \"pdf\"\n            ],\n            \"description\": \"Pension Certificate\",\n            \"docType\": \"PECER\",\n            \"orgId\": \"002317\",\n            \"orgName\": \"Accountants General, Tripura\",\n            \"parameters\": [\n                {\n                    \"description\": \"Account No./PPO No.\",\n                    \"name\": \"AC_NO\"\n                }\n            ]\n        },\n        {\n            \"availableFormats\": [\n                \"pdf\"\n            ],\n            \"description\": \"Provident Fund Member Passbook\",\n            \"docType\": \"PRFND\",\n            \"orgId\": \"002317\",\n            \"orgName\": \"Accountants General, Tripura\",\n            \"parameters\": [\n                {\n                    \"description\": \"Account No./PPO No.\",\n                    \"name\": \"AC_NO\"\n                }\n            ]\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Revoke access token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/digilocker/:requestId/revoke",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"digilocker",
+								":requestId",
+								"revoke"
+							],
+							"variable": [
+								{
+									"key": "requestId",
+									"value": "{{request_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/digilocker/{{request_id}}/revoke",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"digilocker",
+										"{{request_id}}",
+										"revoke"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 21 Sep 2021 03:34:35 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "17"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "Get status API",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/digilocker/:requestId/status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"digilocker",
+								":requestId",
+								"status"
+							],
+							"variable": [
+								{
+									"key": "requestId",
+									"value": "{{request_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/digilocker/{{request_id}}/status",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"digilocker",
+										"{{request_id}}",
+										"status"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 21 Sep 2021 03:32:11 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "209"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"477dc21a-fa28-4c7f-9291-f35d63d5bda7\",\n    \"status\": \"authenticated\",\n    \"url\": \"User login url\",\n    \"validUpto\": \"2021-10-06T08:43:18+05:30\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "PAN Verification",
+			"item": [
+				{
+					"name": "Verify PAN",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();",
+									"pm.environment.set(\"request_id\", res.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pan\": \"ABCDE1234A\", \n  \"consent\": \"Y\" ,\n  \"reason\": \"Reason for verifying PAN set by the developer\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/verify/pan",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"verify",
+								"pan"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success - Valid PAN",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"pan\": \"ABDPB123H\", \n  \"consent\": \"Y\" ,\n  \"reason\": \"Reason for verifying PAN, set by the developer\" \n}"
+								},
+								"url": {
+									"raw": "https://{{base_url}}/api/verify/pan",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"pan"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"category\": \"Individual\",\n        \"full_name\": \"John Doe\"\n    },\n    \"message\": \"PAN is valid\",\n    \"verification\": \"success\"\n}"
+						},
+						{
+							"name": "Success - Invalid PAN",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"pan\": \"ABDPB12123H\", \n  \"consent\": \"Y\" ,\n  \"reason\": \"Reason for verifying PAN, set by the developer\" \n}"
+								},
+								"url": {
+									"raw": "https://{{base_url}}/api/verify/pan",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"pan"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"verification\" : \"failed\",\n    \"message\" : \"PAN is invalid\"\n}"
+						},
+						{
+							"name": "Failure - Consent Not Given",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"pan\": \"ABDPB123H\", \n  \"consent\": \"N\" ,\n  \"reason\": \"Reason for verifying PAN, set by the developer\" \n}"
+								},
+								"url": {
+									"raw": "https://{{base_url}}/api/verify/pan",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"pan"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\" : {\n        \"code\": \"consent_not_given\",\n        \"detail\": \"Consent is required and should be Y/y.\",\n        \"traceId\": \"7097e53a-ba29-48a2-983d-878433b4f33e\"\n    }\n}"
+						},
+						{
+							"name": "Failure - Insufficient Reason Length",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"pan\": \"ABDPB123H\", \n  \"consent\": \"Y\" ,\n  \"reason\": \"developer\" \n}"
+								},
+								"url": {
+									"raw": "https://{{base_url}}/api/verify/pan",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"pan"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\" : {\n        \"code\": \"insufficient_reason_length\",\n        \"detail\": \"Reason should be at least 20 characters in length.\",\n        \"traceId\": \"7097e53a-ba29-48a2-983d-878433b4f33e\"\n    }\n}"
+						},
+						{
+							"name": "Failure - Internal Server Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"pan\": \"ABDPB123H\", \n  \"consent\": \"Y\" ,\n  \"reason\": \"Reason for verifying PAN, set by the developer\" \n}"
+								},
+								"url": {
+									"raw": "https://{{base_url}}/api/verify/pan",
+									"protocol": "https",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"pan"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n    \"error\" : {\n        \"code\": \"internal_server_error\",\n        \"detail\": \"Internal Server Error. Please reach out to support along with the traceId.\",\n        \"traceId\": \"7097e53a-ba29-48a2-983d-878433b4f33e\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Bank Account Verification",
+			"item": [
+				{
+					"name": "Verify BAN",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ifsc\": \"ABCD0123456\",\n    \"accountNumber\": \"1234567890\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/verify/ban",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"verify",
+								"ban"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Failed verification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ifsc\": \"CNRB0008517\", \n  \"accountNumber\": \"8517129000033\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{base_url}}/api/verify/ban",
+									"protocol": "http",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"ban"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"verification\": \"failed\",\n    \"message\": \"This account does not exist or is invalid.\"\n}"
+						},
+						{
+							"name": "Invalid IFSC/BAN format",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ifsc\": \"HDFC0000875\", \n  \"accountNumber\": \"50100093691904\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/verify/ban",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"ban"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"verification\": \"failed\",\n    \"message\": \"Either IFSC or bank account is invalid\"\n}"
+						},
+						{
+							"name": "Successful verification",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ifsc\": \"ABCD0123456\",\n    \"accountNumber\": \"1234567890\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/verify/ban",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"ban"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 15 Nov 2021 09:59:45 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "145"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"name\": \"Kumar Gaurav Rathod\",\n        \"transactionReference\": \"120716373986\"\n    },\n    \"message\": \"Account exists and is active.\",\n    \"verification\": \"success\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Verify BAN Async",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();",
+									"pm.environment.set(\"bav_request_id\", res.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ifsc\": \"ABCD0123456\",\n    \"accountNumber\": \"1234567890\",\n    \"narration\": \"test transaction for verification\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/verify/ban/async",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"verify",
+								"ban",
+								"async"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Request created successfully",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ifsc\": \"HDFC0000875\", \n  \"accountNumber\": \"50100093691904\",\n  \"narration\": \"test transaction for verification\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/verify/ban/async",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"ban",
+										"async"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"id\": \"02c2dc4c-1015-4ea0-8ec4-987829fc70cc\"\n}"
+						},
+						{
+							"name": "Invalid IFSC/BAN format",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"ifsc\": \"HDFC0000875\", \n  \"accountNumber\": \"50100093691904\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/verify/ban",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"ban"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"verification\": \"failed\",\n    \"message\": \"Either IFSC or bank account is invalid\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get BAV request details",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-client-id",
+								"value": "{{client_id}}",
+								"type": "text"
+							},
+							{
+								"key": "x-client-secret",
+								"value": "{{secret}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/verify/ban/async/:RequestId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"verify",
+								"ban",
+								"async",
+								":RequestId"
+							],
+							"variable": [
+								{
+									"key": "RequestId",
+									"value": "{{bav_request_id}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "BAV request not complete",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/verify/ban/async/:RequestId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"ban",
+										"async",
+										":RequestId"
+									],
+									"variable": [
+										{
+											"key": "RequestId",
+											"value": "02c2dc4c-1015-4ea0-8ec4-987829fc70cc"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"verification\": \"pending\"\n}"
+						},
+						{
+							"name": "Failed verification",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/verify/ban/async/:RequestId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"ban",
+										"async",
+										":RequestId"
+									],
+									"variable": [
+										{
+											"key": "RequestId",
+											"value": "02c2dc4c-1015-4ea0-8ec4-987829fc70cc"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"verification\": \"failed\",\n    \"message\": \"This account does not exist or is invalid.\"\n}"
+						},
+						{
+							"name": "Invalid transaction",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/verify/ban/async/:RequestId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"ban",
+										"async",
+										":RequestId"
+									],
+									"variable": [
+										{
+											"key": "RequestId",
+											"value": "02c2dc4c-1015-4ea0-8ec4-987829fc70cc"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"verification\": \"failed\",\n    \"message\": \"This transaction is not valid for this account.\"\n}"
+						},
+						{
+							"name": "Transaction limit",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/verify/ban/async/:RequestId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"ban",
+										"async",
+										":RequestId"
+									],
+									"variable": [
+										{
+											"key": "RequestId",
+											"value": "02c2dc4c-1015-4ea0-8ec4-987829fc70cc"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"verification\": \"failed\",\n    \"message\": \"The transaction limit for this account may have been reached.\"\n}"
+						},
+						{
+							"name": "Successful verification",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-client-id",
+										"value": "{{client_id}}",
+										"type": "text"
+									},
+									{
+										"key": "x-client-secret",
+										"value": "{{secret}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/verify/ban/async/:RequestId",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"verify",
+										"ban",
+										"async",
+										":RequestId"
+									],
+									"variable": [
+										{
+											"key": "RequestId",
+											"value": "{{bav_request_id}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 15 Nov 2021 10:00:25 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "145"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Server",
+									"value": "openresty"
+								},
+								{
+									"key": "Permissions-Policy",
+									"value": "interest-cohort=()"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self'; img-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com; script-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com 'unsafe-inline'; style-src 'self' data-gateway-resources.s3.ap-south-1.amazonaws.com fonts.googleapis.com 'unsafe-inline'; font-src fonts.gstatic.com"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "strict-origin-when-cross-origin"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31556926; includeSubDomains"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"name\": \"Kumar Gaurav Rathod\",\n        \"transactionReference\": \"120716373986\"\n    },\n    \"message\": \"Account exists and is active.\",\n    \"verification\": \"success\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Get Auth token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"  pm.environment.set(\"token\", jsonData.access_token);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{secret}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{auth_server}}/auth/realms/datagateway/protocol/openid-connect/token",
+					"host": [
+						"{{auth_server}}"
+					],
+					"path": [
+						"auth",
+						"realms",
+						"datagateway",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
